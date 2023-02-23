@@ -118,3 +118,63 @@ After this step, we received new one file `.env` and one folder `prisma` obtain 
 
 Go to Prisma project created, click tab `Connect`, copy `Postgres Connection URL` to replace in .env file (`DATABASE_URL`).
 
+Next, see the [document](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/using-prisma-migrate-typescript-postgres) for detail of schema.
+
+Copy the schema to bottom line of `prisma/schema.prisma`.
+
+```
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  content   String?
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+}
+```
+
+and remove author for now, we will add it after this.
+
+Then go to install Prisma CLI
+
+```
+npm install @prisma/client
+```
+
+And create new file as `prisma.client.js` and implement Prisma CLI just like this.
+
+```
+import { PrismaClient } from '@prisma/client'
+
+const prisma = globalThis.prisma || new PrismaClient()
+
+if (process.env.NODE_ENV === 'production') globalThis.prisma = client
+
+export default client
+```
+
+Run command for create migrate database
+
+```
+npx prisma migrate dev
+```
+
+See the question after run command and type any project name.
+
+```
+✔ Enter a name for the new migration: <YOUR_PROJECT_NAME>
+```
+
+After process we can see the message look like
+
+```
+Your database is now in sync with your schema.
+
+✔ Generated Prisma Client (4.10.1 | library) to ./node_modules/@prisma/client in 919ms
+```
+
+So, go back to the Railway project, we will see the tables as `_prisma_migrations` and `Post`.
+
+
