@@ -114,7 +114,7 @@ Next steps:
 
 See the [Prisma document](https://www.prisma.io/docs/getting-started/quickstart) for more set up details.
 
-After this step, we received new one file `.env` and one folder `prisma` obtain a file `schema.prisma`.
+After this step, we received new one file `.env` and one folder `prisma` obtain a file `schema.prisma` (Do not forget add .env in .gitignore to hide our Postgres Connection URL as a secret).
 
 Go to Prisma project created, click tab `Connect`, copy `Postgres Connection URL` to replace in .env file (`DATABASE_URL`).
 
